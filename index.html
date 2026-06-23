@@ -130,6 +130,7 @@
 
 <div id="toolbar">
   <button class="tbtn primary" id="btnOpen"><span class="ic">📂</span>図面を開く</button>
+  <button class="tbtn" id="btnCam" title="カメラで図面を撮影して読み込む"><span class="ic">📷</span>写真を撮る</button>
   <button class="tbtn" id="btnProjOpen" title="保存したプロジェクトを開く">📁 案件を開く</button>
   <button class="tbtn" id="btnSave" title="プロジェクトを保存(.json)">💾 保存</button>
   <div class="sep"></div>
@@ -158,7 +159,7 @@
     <canvas id="cv"></canvas>
     <div id="emptyHint">
       <div class="big">📐</div>
-      <div><b>「図面を開く」</b>で画像(JPG/PNG)またはPDFを読み込み</div>
+      <div><b>「図面を開く」</b>で画像(JPG/PNG)/PDFを読み込み、または<b>「写真を撮る」📷</b>でその場で撮影</div>
       <div>→ <b>縮尺設定</b>で基準寸法を合わせる → 面積/長さ/矩形/カウントで計測</div>
       <div style="font-size:11px">完全ローカル動作・データは外部に送信されません</div>
     </div>
@@ -258,6 +259,7 @@
 </div>
 
 <input type="file" id="fileImg" accept="image/*,application/pdf">
+<input type="file" id="fileCam" accept="image/*" capture="environment">
 <input type="file" id="fileProj" accept=".json,application/json">
 
 <!-- pdf.js worker source (kept as inert text, run as Blob worker) -->
@@ -817,6 +819,8 @@ document.getElementById('btnClearAll').onclick=()=>{ if(S.items.length&&confirm(
 // ---------------- File: open image / pdf ----------------
 document.getElementById('btnOpen').onclick=()=>document.getElementById('fileImg').click();
 document.getElementById('fileImg').onchange=function(){ const f=this.files[0]; if(!f)return; loadFile(f); this.value=''; };
+document.getElementById('btnCam').onclick=()=>document.getElementById('fileCam').click();
+document.getElementById('fileCam').onchange=function(){ const f=this.files[0]; if(!f)return; loadFile(f); this.value=''; };
 function loadFile(f){
   if(f.type==='application/pdf'||/\.pdf$/i.test(f.name)){
     const fr=new FileReader();
